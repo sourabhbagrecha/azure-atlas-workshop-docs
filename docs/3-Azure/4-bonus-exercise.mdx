@@ -1,0 +1,114 @@
+# Bonus exercises
+
+## 1. Reading the secrets from Azure Key Vault
+
+### 1.1 Create Azure Key Vault
+
+#### 1.1.1 Choose unique name, region, pricing tier
+
+![](./assets/azportal-kv-creation.png)
+
+#### 1.1.2 Choose access configuration
+
+![](./assets/azportal-kv-access-config.png)
+
+#### 1.1.3 Choose networking option
+
+![](./assets/azportal-kv-networking.png)
+
+- Add tags in the next screen
+
+#### 1.1.4 Review and Create
+
+![](./assets/azportal-kv-reviewncreate.png)
+
+### 1.2 Create secret in Azure Key Vault
+
+- Pick the connection string from Mongo DB Cloud Connect panel and add as a secret
+  ![](./assets/azportal-kv-create-secret.png)
+
+### 1.3 Create managed identity for Azure App service
+
+Click on `Identity` menu item and enable `System Managed Identity`
+
+![](./assets/azportal-webapp-system-identity.png)
+
+Copy the Object id once Managed identity is created
+
+![](./assets/azportal-webapp-copy-managed-identity.png)
+
+### 1.4 Setup key vault access to Azure app service
+
+- Click on `Access Policy` in the Azure Key Vault created in Step 1
+- Click on `Create Access Policy`
+- Choose the `Permissions`
+
+![](./assets/azportal-kv-create-access-policy.png)
+
+- Choose the `Principal` -> _Search for the app service name here_
+
+![](./assets/azportal-kv-choose-spn.png)
+
+- Review and create
+
+![](./assets/azportal-kv-reviewncreate-access-policy.png)
+
+![](./assets/azportal-kv-access-policy-added.png)
+
+### 1.5 Update appsettings value to refer from keyvault
+
+- Click on `Configuration` menu in the `Azure App Service`
+- Click on `Application Settings` tab
+- Click on `New Application Settings`
+- Give the key as `MongoDB__ConnectionURI`
+- Give the value as `@Microsoft.KeyVault(SecretUri=<pick value from your kv secret>)`
+- Click on `Save`
+
+![](./assets/azportal-webapp-add-kv-reference.png)
+
+### 1.6 Redeploy the application after removing connection string value in `appSettings.json`
+
+## 2. Setting up continuous deployment from Azure Portal
+
+### 2.1 Fork the repository to your account
+
+![](./assets/github-fork-repo.png)
+
+### 2.2 Create a pull request from feature/workshop-4 branch to main
+
+### 2.3 Merge the PR
+
+### 2.4 Setup CI/CD from GitHub repo
+
+### 2.4.1 Download Azure Publish profile and Setup GitHub secret
+
+- Navigate to the Azure Web App in Azure portal
+- Click on Download publish profile
+
+![](./assets/azportal-webapp-download-publish-profile.png)
+
+- Copy the contents of the publish profile and create `secrets` under Repo `Settings`
+
+![](./assets/github-add-secret.png)
+
+### 2.4.2 Navigate to actions tab and choose Deployment template
+
+![](./assets/github-workflow-creation.png)
+
+Modify the environment variables as follows
+
+- `AZURE_WEBAPP_NAME: <your azure web app name>`
+- `DOTNET_VERSION: 6.0.x`
+- Commit the workflow file
+
+![](./assets/github-commit-workflow-file.png)
+
+### 2.4.3 Monitor Deployment in Actions tab
+
+![](./assets/github-actions-monitor.png)
+
+Click on the link present in `deploy` job and browse the webapp
+
+---
+
+# Congratulations you have just setup CI/CD :clap: :fire: :tada:

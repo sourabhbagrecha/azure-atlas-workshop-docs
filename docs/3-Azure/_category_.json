@@ -1,0 +1,8 @@
+{
+  "label": "Deploy on Microsoft Azure App Service",
+  "position": 4,
+  "link": {
+    "type": "generated-index",
+    "description": "In this section, you will learn how to deploy your app on Microsoft Azure App Service."
+  }
+}
